@@ -25,8 +25,8 @@ const PRESETS = {
 const INITIAL_FORM = PRESETS.borderline.data;
 
 function getErrorMessage(err) {
-  if (!navigator.onLine || err.message === 'Failed to fetch') {
-    return 'Unable to connect to the prediction service. Please verify that the backend server is running on port 8000.';
+  if (!navigator.onLine || err.message === 'Failed to fetch' || err.message === 'Unable to connect to the prediction service.') {
+    return 'Unable to reach the ML prediction service. Please ensure the backend is active (either local port 8000 or the live Render service).';
   }
   if (err.message === 'MODEL_ERROR') {
     return 'The machine learning engine encountered an internal calculation error. Please retry.';

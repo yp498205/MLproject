@@ -1,16 +1,24 @@
-const RAW_API_URL = import.meta.env.VITE_API_URL || '';
+const DEFAULT_CLOUD_API = 'https://cardioguard-backend-xzik.onrender.com';
+const RAW_API_URL = import.meta.env.VITE_API_URL || DEFAULT_CLOUD_API;
 const API_BASE_URL = RAW_API_URL.replace(/\/+$/, '');
 
 /**
  * Send patient data to the Stacking Ensemble model.
- * Automatically tries production VITE_API_URL, relative proxy, 127.0.0.1, and localhost.
+ * Automatically attempts:
+ * 1. Configured VITE_API_URL (Render backend)
+ * 2. Relative proxy endpoint (/predict)
+ * 3. Localhost endpoints (127.0.0.1:8000, localhost:8000)
+ * 4. Fallback live Render backend
+ * 
  * Returns { prediction: float, has_cardio_disease: bool, risk_level: string, bmi: float }
  */
 export async function getPrediction(payload) {
   const endpoints = [
-    API_BASE_URL ? `${API_BASE_URL}/predict` : '/predict',
+    `${API_BASE_URL}/predict`,
+    '/predict',
     'http://127.0.0.1:8000/predict',
-    'http://localhost:8000/predict'
+    'http://localhost:8000/predict',
+    `${DEFAULT_CLOUD_API}/predict`
   ].filter((v, i, a) => a.indexOf(v) === i && v);
 
   let lastError = null;
@@ -40,9 +48,9 @@ export async function getPrediction(payload) {
       if (err.message === 'MODEL_ERROR' || (err.message && err.message.startsWith('Validation error:'))) {
         throw err;
       }
-      // Continue to try the next candidate endpoint
+      // Try next endpoint in list
     }
   }
 
-  throw lastError || new Error('Failed to fetch');
+  throw lastError || new Error('Unable to connect to the prediction service.');
 }
