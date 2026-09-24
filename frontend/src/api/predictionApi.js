@@ -1,8 +1,9 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || '';
+const RAW_API_URL = import.meta.env.VITE_API_URL || '';
+const API_BASE_URL = RAW_API_URL.replace(/\/+$/, '');
 
 /**
  * Send patient data to the Stacking Ensemble model.
- * Automatically tries relative proxy, 127.0.0.1, and localhost.
+ * Automatically tries production VITE_API_URL, relative proxy, 127.0.0.1, and localhost.
  * Returns { prediction: float, has_cardio_disease: bool, risk_level: string, bmi: float }
  */
 export async function getPrediction(payload) {
