@@ -1,0 +1,34 @@
+{
+  "model_type": "DecisionTreeClassifier",
+  "feature_cols": [
+    "age_years",
+    "gender",
+    "height",
+    "weight",
+    "bmi",
+    "ap_hi",
+    "ap_lo",
+    "cholesterol",
+    "gluc",
+    "smoke",
+    "alco",
+    "active"
+  ],
+  "max_depth": 5,
+  "min_samples_split": 10,
+  "accuracy": 0.7311334498834499,
+  "feature_importances": {
+    "age_years": 0.12353348455382844,
+    "gender": 0.0,
+    "height": 0.0012715759467216477,
+    "weight": 0.0008112447474943998,
+    "bmi": 0.004622095533305617,
+    "ap_hi": 0.7831372729501567,
+    "ap_lo": 0.003288655569275706,
+    "cholesterol": 0.07387776277281356,
+    "gluc": 0.007179376529914207,
+    "smoke": 0.0,
+    "alco": 0.0,
+    "active": 0.0022785313964896526
+  }
+}
